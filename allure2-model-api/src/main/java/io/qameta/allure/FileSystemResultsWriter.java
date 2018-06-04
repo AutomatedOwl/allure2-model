@@ -37,7 +37,7 @@ public class FileSystemResultsWriter implements AllureResultsWriter {
                 : generateTestResultName(testResult.getUuid());
         createDirectories(outputDirectory);
         Path file = outputDirectory.resolve(testResultName);
-        try (OutputStream os = Files.newOutputStream(file, CREATE_NEW)) {
+        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(file.toString()))) {
             mapper.writeValue(os, testResult);
         } catch (IOException e) {
             throw new AllureResultsWriteException("Could not write Allure test result", e);
